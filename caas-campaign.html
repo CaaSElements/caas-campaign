@@ -1,0 +1,165 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+
+<!--
+`caas-campaign`
+Campaign Data Element for Crowdfunding as a Service Solutions
+
+@demo demo/index.html 
+-->
+
+<dom-module id="caas-campaign">
+  <template>
+
+    <iron-ajax
+      id="getCampaignData"
+      url="[[apiEndpoint]]/campaigns/[[id]]"
+      handle-as="json"
+      method="GET"
+      last-response="{{_apiData}}"
+      debounce-duration="3000"
+    ></iron-ajax>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'caas-campaign',
+
+      properties: {
+
+        apiEndpoint: {
+          type: String,
+          value: null
+        },
+
+        id: {
+          type: String,
+          value: null
+        },
+
+        thumbnailImageUrl: {
+          type: String,
+          computed: '_getApiDataValue(_apiData.thumb)'
+        },
+
+        imageUrl: {
+          type: String,
+          computed: '_getApiDataValue(_apiData.coverURL)'
+        },
+
+        imageUrls: {
+          type: Array,
+          computed: '_getApiDataValue(_apiData.coverURLsResponsive)'
+        },
+
+        title: {
+          type: String,
+          computed: '_getApiDataValue(_apiData.projectNaam)'
+        },
+
+        slug: {
+          type: String,
+          computed: '_getApiDataValue(_apiData.slug)'
+        },
+
+        proposition: {
+          type: String,
+          computed: '_getApiDataValue(_apiData.propositie)'
+        },
+        
+        introductionText: {
+          type: String,
+          computed: '_getApiDataValue(_apiData.introductieTekst)'
+        },
+
+        bodyText: {
+          type: String,
+          computed: '_getApiDataValue(_apiData.interview)'
+        },
+
+        twitterUrl: {
+          type: String,
+          computed: '_computeTwitterUrl(_apiData.twitter)'
+        },
+
+        facebookUrl: {
+          type: String,
+          computed: '_computeFacebookUrl(_apiData.facebook)'
+        },
+
+        linkedInUrl: {
+          type: String,
+          computed: '_computeLinkedInUrl(_apiData.linkedin)'
+        },
+
+        categories: {
+          type: Array,
+          computed: '_getApiDataValue(_apiData.categories)'
+        },
+
+        categories: {
+          type: Array,
+          computed: '_getApiDataValue(_apiData.categories)'
+        },
+
+        address: {
+          type: Object,
+          computed: '_parseAddress(_apiData.address)'
+        },
+
+        geoLocation: {
+          type: Object,
+          computed: '_getApiDataValue(_apiData.geocode)'
+        },
+
+        _apiData: {
+          type: Object,
+          value: {},
+        },
+
+      },
+
+      observers: [
+        '_getApiData(apiEndpoint, id)'
+      ],
+
+      _getApiData: function(apiEndpoint, id) {
+        if(!apiEndpoint && id) return;
+        this.$.getCampaignData.generateRequest();
+      },
+
+      _parseAddress: function(apiAddressData) {
+        return {
+          street: apiAddressData.street,
+          houseNumber: apiAddressData.houseNumber,
+          postalCode: apiAddressData.postalCode,
+          city: apiAddressData.city,
+          region: apiAddressData.region,
+          country: apiAddressData.country
+        }
+      },
+
+      _computeTwitterUrl: function(twitterHandle) {
+        if(!twitterHandle) return null;
+        return 'https://twitter.com/' + twitterHandle;
+      },
+
+      _computeFacebookUrl: function(facebookHandle) {
+        if(!facebookHandle) return null;
+        return 'https://facebook.com/' + facebookHandle;
+      },
+
+      _computeLinkedInUrl: function(linkedInHandle) {
+        if(!linkedInHandle) return null;
+        return 'https://linkedin.com/' + linkedInHandle;
+      },
+
+      _getApiDataValue: function(apiDataValue) {
+        return apiDataValue;
+      },
+
+    });
+  </script>
+</dom-module>
