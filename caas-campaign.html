@@ -146,6 +146,7 @@ Campaign Data Element for Crowdfunding as a Service Solutions
       },
 
       _parseAddress: function(apiAddressData) {
+        if(!apiAddressData) return {}
         return {
           street: apiAddressData.street,
           houseNumber: apiAddressData.houseNumber,
