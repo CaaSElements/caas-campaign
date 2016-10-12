@@ -41,91 +41,91 @@ Campaign Data Element for Crowdfunding as a Service Solutions
 
         thumbnailImageUrl: {
           type: String,
-          computed: '_getApiDataValue(_apiData.thumb)'
+          computed: '_getApiDataValue(_apiData.thumb)',
           notify: true
         },
 
         imageUrl: {
           type: String,
-          computed: '_getApiDataValue(_apiData.coverURL)'
+          computed: '_getApiDataValue(_apiData.coverURL)',
           notify: true
         },
 
         imageUrls: {
           type: Array,
-          computed: '_getApiDataValue(_apiData.coverURLsResponsive)'
+          computed: '_getApiDataValue(_apiData.coverURLsResponsive)',
           notify: true
         },
 
         title: {
           type: String,
-          computed: '_getApiDataValue(_apiData.projectNaam)'
+          computed: '_getApiDataValue(_apiData.projectNaam)',
           notify: true
         },
 
         slug: {
           type: String,
-          computed: '_getApiDataValue(_apiData.slug)'
+          computed: '_getApiDataValue(_apiData.slug)',
           notify: true
         },
 
         proposition: {
           type: String,
-          computed: '_getApiDataValue(_apiData.propositie)'
+          computed: '_getApiDataValue(_apiData.propositie)',
           notify: true
         },
         
         introductionText: {
           type: String,
-          computed: '_getApiDataValue(_apiData.introductieTekst)'
+          computed: '_getApiDataValue(_apiData.introductieTekst)',
           notify: true
         },
 
         bodyText: {
           type: String,
-          computed: '_getApiDataValue(_apiData.interview)'
+          computed: '_getApiDataValue(_apiData.interview)',
           notify: true
         },
 
         twitterUrl: {
           type: String,
-          computed: '_computeTwitterUrl(_apiData.twitter)'
+          computed: '_computeTwitterUrl(_apiData.twitter)',
           notify: true
         },
 
         facebookUrl: {
           type: String,
-          computed: '_computeFacebookUrl(_apiData.facebook)'
+          computed: '_computeFacebookUrl(_apiData.facebook)',
           notify: true
         },
 
         linkedInUrl: {
           type: String,
-          computed: '_computeLinkedInUrl(_apiData.linkedin)'
+          computed: '_computeLinkedInUrl(_apiData.linkedin)',
           notify: true
         },
 
         categories: {
           type: Array,
-          computed: '_getApiDataValue(_apiData.categories)'
+          computed: '_getApiDataValue(_apiData.categories)',
           notify: true
         },
 
         categories: {
           type: Array,
-          computed: '_getApiDataValue(_apiData.categories)'
+          computed: '_getApiDataValue(_apiData.categories)',
           notify: true
         },
 
         address: {
           type: Object,
-          computed: '_parseAddress(_apiData.address)'
+          computed: '_parseAddress(_apiData.address)',
           notify: true
         },
 
         geoLocation: {
           type: Object,
-          computed: '_getApiDataValue(_apiData.geocode)'
+          computed: '_getApiDataValue(_apiData.geocode)',
           notify: true
         },
 
