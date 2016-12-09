@@ -129,6 +129,12 @@ Campaign Data Element for Crowdfunding as a Service Solutions
           notify: true
         },
 
+        contractTypes: {
+          type: Object,
+          computed: '_computeContractTypes(_apiData.contractTypeIds.*, _apiData.minInvestment, _apiData.maxInvestment, _apiData.maxInvestmentForPrimaryContractType, _apiData.maxInvestmentForSecondaryContractType, _apiData.maxInvestableForPrimaryContractType, _apiData.maxInvestableForSecondaryContractType, _apiData.investIncrements)',
+          notify: true
+        },
+
         _apiData: {
           type: Object,
           value: {}
@@ -170,6 +176,33 @@ Campaign Data Element for Crowdfunding as a Service Solutions
       _computeLinkedInUrl: function(linkedInHandle) {
         if(!linkedInHandle) return null;
         return 'https://linkedin.com/' + linkedInHandle;
+      },
+
+      _computeContractTypes: function(contractTypeIdsSplice, minInvestment, maxInvestment, maxInvestmentForPrimaryContractType, maxInvestmentForSecondaryContractType, maxInvestableForPrimaryContractType, maxInvestableForSecondaryContractType, investIncrements) {
+        var contractTypes = [];
+        var contractTypeIds = contractTypeIdsSplice.base;
+        if(contractTypeIds[0]) {
+          contractTypes.push({
+            id: contractTypeIds[0],
+            smallestAllowedInvestment: this._getSmallestValue(minInvestment, maxInvestment, maxInvestmentForPrimaryContractType, maxInvestableForPrimaryContractType),
+            largestAllowedInvestment: this._getSmallestValue(maxInvestment, maxInvestmentForPrimaryContractType, maxInvestableForPrimaryContractType),
+            investmentStep: investIncrements
+          })
+        }
+        if(contractTypeIds[1]) {
+          contractTypes.push({
+            id: contractTypeIds[1],
+            smallestAllowedInvestment: this._getSmallestValue(minInvestment, maxInvestment, maxInvestmentForSecondaryContractType, maxInvestableForSecondaryContractType),
+            largestAllowedInvestment: this._getSmallestValue(maxInvestment, maxInvestmentForSecondaryContractType, maxInvestableForSecondaryContractType),
+            investmentStep: investIncrements
+          })
+        }
+        return contractTypes;
+      },
+
+      _getSmallestValue: function() {
+        var values = Array.apply(null, arguments).sort();
+        return values[0];
       },
 
       _getApiDataValue: function(apiDataValue) {
