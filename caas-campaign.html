@@ -176,23 +176,21 @@ Campaign Data Element for Crowdfunding as a Service Solutions
       },
 
       _computeContractTypes: function(contractTypeIdsSplice, minInvestment, maxInvestment, maxInvestmentForPrimaryContractType, maxInvestmentForSecondaryContractType, maxInvestableForPrimaryContractType, maxInvestableForSecondaryContractType, investIncrements) {
-        var contractTypes = [];
+        var contractTypes = {};
         var contractTypeIds = contractTypeIdsSplice.base;
         if(contractTypeIds[0]) {
-          contractTypes.push({
-            id: contractTypeIds[0],
+          contractTypes[contractTypeIds[0]] = {
             smallestAllowedInvestment: this._getSmallestValue(minInvestment, maxInvestment, maxInvestmentForPrimaryContractType, maxInvestableForPrimaryContractType),
             largestAllowedInvestment: this._getSmallestValue(maxInvestment, maxInvestmentForPrimaryContractType, maxInvestableForPrimaryContractType),
             investmentStep: investIncrements
-          })
+          }
         }
         if(contractTypeIds[1]) {
-          contractTypes.push({
-            id: contractTypeIds[1],
+          contractTypes[contractTypeIds[1]] = {
             smallestAllowedInvestment: this._getSmallestValue(minInvestment, maxInvestment, maxInvestmentForSecondaryContractType, maxInvestableForSecondaryContractType),
             largestAllowedInvestment: this._getSmallestValue(maxInvestment, maxInvestmentForSecondaryContractType, maxInvestableForSecondaryContractType),
             investmentStep: investIncrements
-          })
+          }
         }
         return contractTypes;
       },
