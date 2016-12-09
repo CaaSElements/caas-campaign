@@ -13,7 +13,7 @@ Campaign Data Element for Crowdfunding as a Service Solutions
 
     <iron-ajax
       id="getCampaignData"
-      url="[[apiEndpoint]]/campaigns/[[id]]"
+      url="[[apiEndpoint]]/campaigns/[[campaignId]]"
       handle-as="json"
       method="GET"
       last-response="{{_apiData}}"
@@ -30,13 +30,11 @@ Campaign Data Element for Crowdfunding as a Service Solutions
       properties: {
 
         apiEndpoint: {
-          type: String,
-          value: null
+          type: String
         },
 
-        id: {
-          type: String,
-          value: null
+        campaignId: {
+          type: String
         },
 
         thumbnailImageUrl: {
@@ -143,11 +141,10 @@ Campaign Data Element for Crowdfunding as a Service Solutions
       },
 
       observers: [
-        '_getApiData(apiEndpoint, id)'
+        '_getApiData(apiEndpoint, campaignId)'
       ],
 
-      _getApiData: function(apiEndpoint, id) {
-        if(!apiEndpoint && id) return;
+      _getApiData: function(apiEndpoint, campaignId) {
         this.$.getCampaignData.generateRequest();
       },
 
