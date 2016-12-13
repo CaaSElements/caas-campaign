@@ -129,7 +129,7 @@ Campaign Data Element for Crowdfunding as a Service Solutions
 
         contractTypes: {
           type: Object,
-          computed: '_computeContractTypes(_apiData.contractTypeIds.*, _apiData.minInvestment, _apiData.maxInvestment, _apiData.maxInvestmentForPrimaryContractType, _apiData.maxInvestmentForSecondaryContractType, _apiData.maxInvestableForPrimaryContractType, _apiData.maxInvestableForSecondaryContractType, _apiData.investIncrements)',
+          computed: '_computeContractTypes(_apiData.contractTypeIds.*, _apiData.minInvestment, _apiData.maxInvestment, _apiData.maxInvestableForPrimaryContractType, _apiData.maxInvestableForSecondaryContractType, _apiData.maxInvestableForPrimaryContractType, _apiData.maxInvestableForSecondaryContractType, _apiData.investIncrements)',
           notify: true
         },
 
@@ -175,22 +175,22 @@ Campaign Data Element for Crowdfunding as a Service Solutions
         return 'https://linkedin.com/' + linkedInHandle;
       },
 
-      _computeContractTypes: function(contractTypeIdsSplice, minInvestment, maxInvestment, maxInvestmentForPrimaryContractType, maxInvestmentForSecondaryContractType, maxInvestableForPrimaryContractType, maxInvestableForSecondaryContractType, investIncrements) {
+      _computeContractTypes: function(contractTypeIdsSplice, minInvestment, maxInvestment, maxInvestableForPrimaryContractType, maxInvestableForSecondaryContractType, maxInvestableForPrimaryContractType, maxInvestableForSecondaryContractType, investIncrements) {
         var contractTypes = [];
         var contractTypeIds = contractTypeIdsSplice.base;
         if(contractTypeIds[0]) {
           contractTypes.push({
             id: contractTypeIds[0],
-            smallestAllowedInvestment: this._getSmallestValue(minInvestment, maxInvestment, maxInvestmentForPrimaryContractType, maxInvestableForPrimaryContractType),
-            largestAllowedInvestment: this._getSmallestValue(maxInvestment, maxInvestmentForPrimaryContractType, maxInvestableForPrimaryContractType),
+            smallestAllowedInvestment: this._getSmallestValue(minInvestment, maxInvestment, maxInvestableForPrimaryContractType, maxInvestableForPrimaryContractType),
+            largestAllowedInvestment: this._getSmallestValue(maxInvestment, maxInvestableForPrimaryContractType, maxInvestableForPrimaryContractType),
             investmentStep: investIncrements
           })
         }
         if(contractTypeIds[1]) {
           contractTypes.push({
             id: contractTypeIds[1],
-            smallestAllowedInvestment: this._getSmallestValue(minInvestment, maxInvestment, maxInvestmentForSecondaryContractType, maxInvestableForSecondaryContractType),
-            largestAllowedInvestment: this._getSmallestValue(maxInvestment, maxInvestmentForSecondaryContractType, maxInvestableForSecondaryContractType),
+            smallestAllowedInvestment: this._getSmallestValue(minInvestment, maxInvestment, maxInvestableForSecondaryContractType, maxInvestableForSecondaryContractType),
+            largestAllowedInvestment: this._getSmallestValue(maxInvestment, maxInvestableForSecondaryContractType, maxInvestableForSecondaryContractType),
             investmentStep: investIncrements
           })
         }
@@ -198,7 +198,9 @@ Campaign Data Element for Crowdfunding as a Service Solutions
       },
 
       _getSmallestValue: function() {
-        var values = Array.apply(null, arguments).sort();
+        var values = Array.apply(null, arguments).sort(function(a, b) {
+          return a - b;
+        });
         return values[0];
       },
 
