@@ -109,9 +109,9 @@ Campaign Data Element for Crowdfunding as a Service Solutions
           notify: true
         },
 
-        categories: {
-          type: Array,
-          computed: '_getApiDataValue(_apiData.categories)',
+        video: {
+          type: Object,
+          computed: '_computeVideo(_apiData.video.*)',
           notify: true
         },
 
@@ -195,6 +195,10 @@ Campaign Data Element for Crowdfunding as a Service Solutions
           })
         }
         return contractTypes;
+      },
+
+      _computeVideo: function(apiDataVideoChange) {
+        return apiDataVideoChange.base;
       },
 
       _getSmallestValue: function() {
