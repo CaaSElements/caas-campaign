@@ -37,6 +37,12 @@ Campaign Data Element for Crowdfunding as a Service Solutions
           type: String
         },
 
+        active: {
+          type: Object,
+          computed: '_computeActive(_apiData.status)',
+          notify: true
+        },
+
         thumbnailImageUrl: {
           type: String,
           computed: '_getApiDataValue(_apiData.thumb)',
@@ -195,6 +201,10 @@ Campaign Data Element for Crowdfunding as a Service Solutions
           })
         }
         return contractTypes;
+      },
+
+      _computeActive: function(apiDataStatus) {
+        return (apiDataStatus == 1);
       },
 
       _computeVideo: function(apiDataVideoChange) {
