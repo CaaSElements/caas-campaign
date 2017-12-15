@@ -13,11 +13,13 @@ Campaign Data Element for Crowdfunding as a Service Solutions
 
     <iron-ajax
       id="getCampaignData"
-      url="[[apiEndpoint]]/campaigns/[[campaignId]]"
+      url="[[apiUrl]]"
       handle-as="json"
       method="GET"
       last-response="{{_apiData}}"
-      debounce-duration="3000"
+      debounce-duration="0"
+      auto="[[apiUrl]]"
+      headers="[[_requestHeaders]]"
     ></iron-ajax>
 
   </template>
@@ -31,6 +33,11 @@ Campaign Data Element for Crowdfunding as a Service Solutions
 
         apiEndpoint: {
           type: String
+        },
+
+        apiUrl: {
+          type: String,
+          computed: '_computeApiUrl(apiEndpoint, campaignId, accessToken)'
         },
 
         campaignId: {
@@ -139,19 +146,35 @@ Campaign Data Element for Crowdfunding as a Service Solutions
           notify: true
         },
 
+        accessToken: {
+          type: String,
+          value: null
+        },
+
         _apiData: {
           type: Object,
           value: {}
         },
 
+        _requestHeaders: {
+          type: Object,
+          computed: '_computeRequestHeaders(accessToken)'
+        }
+
       },
 
-      observers: [
-        '_getApiData(apiEndpoint, campaignId)'
-      ],
+      _computeRequestHeaders(accessToken) {
+        if(!accessToken) return {};
+        return {
+          'authorization': 'Bearer ' + accessToken 
+        }        
+      },
 
-      _getApiData: function(apiEndpoint, campaignId) {
-        this.$.getCampaignData.generateRequest();
+      _computeApiUrl: function(apiEndpoint, campaignId, accessToken) {
+        if(accessToken) {
+          return apiEndpoint + '/entrepreneurs/' + campaignId;
+        }
+        return apiEndpoint + '/campaigns/' + campaignId;
       },
 
       _parseAddress: function(apiAddressData) {
