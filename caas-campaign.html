@@ -163,7 +163,7 @@ Campaign Data Element for Crowdfunding as a Service Solutions
 
       },
 
-      _computeRequestHeaders(accessToken) {
+      _computeRequestHeaders: function(accessToken) {
         if(!accessToken) return {};
         return {
           'authorization': 'Bearer ' + accessToken 
