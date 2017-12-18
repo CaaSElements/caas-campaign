@@ -5,7 +5,7 @@
 `caas-campaign`
 Campaign Data Element for Crowdfunding as a Service Solutions
 
-@demo demo/index.html 
+@demo demo/index.html
 -->
 
 <dom-module id="caas-campaign">
@@ -24,7 +24,7 @@ Campaign Data Element for Crowdfunding as a Service Solutions
 
     <iron-ajax
       id="getSettings"
-      url="[[apiEndpoint]]/campaigns/[[campaignId]]/campaigntypes"
+      url="[[apiEndpoint]]/campaigns/[[campaignSlug]]/campaigntypes"
       method="GET"
       last-response="{{_apiContractTypes}}"
       auto="[[campaignId]]"
@@ -46,11 +46,18 @@ Campaign Data Element for Crowdfunding as a Service Solutions
         apiUrl: {
           type: String,
           value: '',
-          computed: '_computeApiUrl(apiEndpoint, campaignId, accessToken)'
+          computed: '_computeApiUrl(apiEndpoint, campaignSlug, accessToken)'
+        },
+
+        campaignSlug: {
+          type: String,
+          notify: true
         },
 
         campaignId: {
-          type: String
+          type: Number,
+          computed: '_computeCampaignId(_apiData.id)',
+          notify: true
         },
 
         active: {
@@ -94,7 +101,7 @@ Campaign Data Element for Crowdfunding as a Service Solutions
           computed: '_getApiDataValue(_apiData.propositie)',
           notify: true
         },
-        
+
         introductionText: {
           type: String,
           computed: '_getApiDataValue(_apiData.introductieTekst)',
@@ -181,15 +188,19 @@ Campaign Data Element for Crowdfunding as a Service Solutions
       _computeRequestHeaders: function(accessToken) {
         if(!accessToken) return {};
         return {
-          'authorization': 'Bearer ' + accessToken 
-        }        
+          'authorization': 'Bearer ' + accessToken
+        }
       },
 
-      _computeApiUrl: function(apiEndpoint, campaignId, accessToken) {
+      _computeCampaignId: function(campaignId) {
+        return campaignId;
+      },
+
+      _computeApiUrl: function(apiEndpoint, campaignSlug, accessToken) {
         if(accessToken) {
-          return apiEndpoint + '/entrepreneurs/' + campaignId;
+          return apiEndpoint + '/entrepreneurs/' + campaignSlug;
         }
-        return apiEndpoint + '/campaigns/' + campaignId;
+        return apiEndpoint + '/campaigns/' + campaignSlug;
       },
 
       _parseAddress: function(apiAddressData) {
