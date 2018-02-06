@@ -46,7 +46,7 @@ Campaign Data Element for Crowdfunding as a Service Solutions
         apiUrl: {
           type: String,
           value: '',
-          computed: '_computeApiUrl(apiEndpoint, campaignSlug, accessToken)'
+          computed: '_computeApiUrl(apiEndpoint, campaignId, campaignSlug, accessToken)'
         },
 
         campaignSlug: {
@@ -205,11 +205,11 @@ Campaign Data Element for Crowdfunding as a Service Solutions
         return campaignId;
       },
 
-      _computeApiUrl: function(apiEndpoint, campaignSlug, accessToken) {
+      _computeApiUrl: function(apiEndpoint, campaignId, campaignSlug, accessToken) {
         if(accessToken) {
-          return apiEndpoint + '/entrepreneurs/' + campaignSlug;
+          return apiEndpoint + '/entrepreneurs/' + (campaignId || campaignSlug);
         }
-        return apiEndpoint + '/campaigns/' + campaignSlug;
+        return apiEndpoint + '/campaigns/' + (campaignId || campaignSlug);
       },
 
       _parseAddress: function(apiAddressData) {
