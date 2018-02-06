@@ -55,8 +55,7 @@ Campaign Data Element for Crowdfunding as a Service Solutions
         },
 
         campaignId: {
-          type: Number,
-          computed: '_computeCampaignId(_apiData.id)',
+          type: String,
           notify: true
         },
 
@@ -183,6 +182,16 @@ Campaign Data Element for Crowdfunding as a Service Solutions
           computed: '_computeRequestHeaders(accessToken)'
         }
 
+      },
+
+      observers: [
+        '_setCampaignId(_apiData.id)',
+      ],
+
+      _setCampaignId: function(apiId) {
+        if(apiId) {
+          this.campaignId = apiId
+        }
       },
 
       _computeRequestHeaders: function(accessToken) {
