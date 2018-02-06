@@ -24,7 +24,7 @@ Campaign Data Element for Crowdfunding as a Service Solutions
 
     <iron-ajax
       id="getSettings"
-      url="[[apiEndpoint]]/campaigns/[[campaignId]]/campaigntypes"
+      url="[[apiEndpoint]]/campaigns/[[campaignSlug]]/campaigntypes"
       method="GET"
       last-response="{{_apiContractTypes}}"
       auto="[[campaignId]]"
@@ -46,7 +46,7 @@ Campaign Data Element for Crowdfunding as a Service Solutions
         apiUrl: {
           type: String,
           value: '',
-          computed: '_computeApiUrl(apiEndpoint, campaignId, campaignSlug, accessToken)'
+          computed: '_computeApiUrl(apiEndpoint, campaignSlug, accessToken)'
         },
 
         campaignSlug: {
@@ -55,7 +55,8 @@ Campaign Data Element for Crowdfunding as a Service Solutions
         },
 
         campaignId: {
-          type: String,
+          type: Number,
+          computed: '_computeCampaignId(_apiData.id)',
           notify: true
         },
 
@@ -184,16 +185,6 @@ Campaign Data Element for Crowdfunding as a Service Solutions
 
       },
 
-      observers: [
-        '_setCampaignId(_apiData.id)',
-      ],
-
-      _setCampaignId: function(apiId) {
-        if(apiId) {
-          this.campaignId = apiId
-        }
-      },
-
       _computeRequestHeaders: function(accessToken) {
         if(!accessToken) return {};
         return {
@@ -205,11 +196,11 @@ Campaign Data Element for Crowdfunding as a Service Solutions
         return campaignId;
       },
 
-      _computeApiUrl: function(apiEndpoint, campaignId, campaignSlug, accessToken) {
+      _computeApiUrl: function(apiEndpoint, campaignSlug, accessToken) {
         if(accessToken) {
-          return apiEndpoint + '/entrepreneurs/' + (campaignId || campaignSlug);
+          return apiEndpoint + '/entrepreneurs/' + campaignSlug;
         }
-        return apiEndpoint + '/campaigns/' + (campaignId || campaignSlug);
+        return apiEndpoint + '/campaigns/' + campaignSlug;
       },
 
       _parseAddress: function(apiAddressData) {
